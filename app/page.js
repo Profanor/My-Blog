@@ -1,17 +1,19 @@
 import Navbar from "@/components/Navbar";
+import Video from "@/components/Video";
+import Content from "@/components/Content";
+import Featured from "@/components/Featured";
 import Footer from "@/components/Footer";
 
 const Home = () => {
   return (
     <>
     <Navbar />
-    <section className="w-full h-screen flex-center flex-col bg-cover bg-center bg-no-repeat"
-    style={{ backgroundImage: "url('/images/kaneki.jpg')" }}
-    >
-      <h1 className="text-black text-4xl font-bold text-center">This is the Home page</h1>
-    </section>
-    <Footer />
+      <Video />
+        <Content />
+          <Featured />
+            <Footer />
     </>
-    );
-}
-export default Home 
+  );
+};
+
+export default Home;
