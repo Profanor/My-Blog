@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 const Featured = () => {
   return (
-    <div id="featured" className="w-full h-screen grid grid-cols-3 gap-4 ml-2 p-24">
+    <div id="featured" className="w-full h-screen grid grid-cols-3 gap-4 ml-2 p-14">
       <div className="relative overflow-hidden">
         <Image src="/images/gojou1.png" alt="Image 1" width={300} height={200} className="w-full h-auto transition-transform duration-300 transform hover:scale-110" />
         <div className="bg-gray-200 p-4 text-center text-black text-2xl">Is Gojou dead?</div>

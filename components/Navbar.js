@@ -1,4 +1,5 @@
 "use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
@@ -11,7 +12,10 @@ const Navbar = () => {
     if (element) {
       element.scrollIntoView({ behavior: "smooth", block: "start" });
     }
-  }, 300); // Adjust the delay time according to your preference
+  }, 300);
+
+  // State variables to track the active link
+  const [activeLink, setActiveLink] = useState('');
 
   return (
     <nav className="fixed top-0 z-10 w-full bg-black bg-opacity-75 p-4 flex justify-between items-center">
@@ -31,10 +35,28 @@ const Navbar = () => {
       </div>
       <div className="flex gap-4">
         <div>
-          <Link href="/" className="text-white" onClick={(e) => { e.preventDefault(); smoothScrollTo("about"); }}>About</Link>
+          <Link href="/" 
+            className={`text-white ${activeLink === 'about' ? 'text-orange-500' : ''}`} 
+            onClick={(e) => { 
+              e.preventDefault(); 
+              smoothScrollTo("about");
+              setActiveLink('about');
+            }}
+          >
+            About
+          </Link>
         </div>
         <div>
-          <Link href="/" className="text-white" onClick={(e) => { e.preventDefault(); smoothScrollTo("featured"); }}>Featured</Link>
+          <Link href="/" 
+            className={`text-white ${activeLink === 'featured' ? 'text-orange-500' : ''}`} 
+            onClick={(e) => { 
+              e.preventDefault(); 
+              smoothScrollTo("featured");
+              setActiveLink('featured');
+            }}
+          >
+            Featured
+          </Link>
         </div>
         <div>
           <Link href="/posts/new" className="text-white mr-10">Create a Post</Link>

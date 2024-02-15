@@ -1,4 +1,9 @@
-const Loading = () => {
-    return < LoadingSkeleton/>
+import React from 'react'
+
+const loading = () => {
+  return (
+    <div>loading</div>
+  )
 }
-export default Loading
+
+export default loading

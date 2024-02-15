@@ -1,5 +1,5 @@
-import "@/styles/globals.css";
 import Navbar from "@/components/Navbar";
+import "@/styles/globals.css";
 
 export const metadata = {
   title: "Davids Blog",
@@ -9,7 +9,7 @@ export const metadata = {
 const RootLayout = ({ children }) => (
   <html lang="en">
     <body>
-    <Navbar />
+      <Navbar />
     <div>{children}</div>
       </body>
   </html>
