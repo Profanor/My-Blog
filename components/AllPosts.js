@@ -15,10 +15,7 @@ const AllPostsPage = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const baseUrl = window.location.protocol + '//' + window.location.host;
-        const apiUrl = `${baseUrl}/api/posts`;
-
-        const response = await fetch(apiUrl);
+        const response = await fetch('/api/posts');
         if (!response.ok) {
           throw new Error('Failed to fetch posts');
         }
