@@ -47,7 +47,10 @@ const AllPostsPage = () => {
 
   const handleEditPost = async (postId, updatedPostData) => {
     try {
-      const res = await fetch(`http://localhost:3000/api/posts/${postId}`, {  
+    const baseUrl = window.location.protocol + '//' + window.location.host;
+    const apiUrl = `${baseUrl}/api/posts/${postId}`;
+  
+      const res = await fetch(apiUrl, {  
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -67,11 +70,15 @@ const AllPostsPage = () => {
   };
 
   const handleDeletePost = async (postId) => {
-    const confirmed = confirm('Are you sure?');
-    if(confirmed) {
-      const res = await fetch(`http://localhost:3000/api/posts?id=${postId}`, {
+      const baseUrl = window.location.protocol + '//' + window.location.host;
+      const apiUrl = `${baseUrl}/api/posts?id=${postId}`;
+
+      const confirmed = confirm('Are you sure?');
+      if(confirmed) {
+      const res = await fetch(apiUrl, {
         method: 'DELETE',
       });
+
       if (res.ok) {
         alert('Post deleted successfully.');
         router.refresh();
