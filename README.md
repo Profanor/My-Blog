@@ -1,1 +1,1 @@
-Link to the blog: https://my-blog-z662.vercel.app/
+Link to the blog: https://my-blog-app-smoky.vercel.app/
