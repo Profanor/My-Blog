@@ -23,7 +23,8 @@
     "react-dom": "^18",
     "react-icons": "^5.0.1",
     "sequelize": "^6.37.0",
-    "sqlite3": "^5.1.7"
+    "sqlite3": "^5.1.7",
+    "util.promisify": "^1.1.2"
   },
   "devDependencies": {
     "autoprefixer": "^10.0.1",

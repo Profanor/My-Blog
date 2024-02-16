@@ -77,19 +77,19 @@ const Navbar = () => {
           {router.pathname !== "/posts" && (
             <>
               <div>
-                <Link href="/" className={`text-white ${activeLink === 'about' ? 'text-orange-500' : ''}`} onClick={(e) => { e.preventDefault(); smoothScrollTo("about"); setActiveLink('about'); }}>
+                <Link href="/" className={`text-white hover:text-orange-500 ${activeLink === 'about' ? 'text-orange-500' : ''}`} onClick={(e) => { e.preventDefault(); smoothScrollTo("about"); setActiveLink('about'); }}>
                   About
                 </Link>
               </div>
               <div>
-                <Link href="/" className={`text-white ${activeLink === 'featured' ? 'text-orange-500' : ''}`} onClick={(e) => { e.preventDefault(); smoothScrollTo("featured"); setActiveLink('featured'); }}>
+                <Link href="/" className={`text-white hover:text-orange-500 ${activeLink === 'featured' ? 'text-orange-500' : ''}`} onClick={(e) => { e.preventDefault(); smoothScrollTo("featured"); setActiveLink('featured'); }}>
                   Featured
                 </Link>
               </div>
             </>
           )}
           <div>
-            <Link href="/posts/new" className="text-white mr-10" onClick={closeMobileMenu}>Create a Post</Link>
+            <Link href="/posts/new" className="text-white hover:text-orange-500 mr-10" onClick={closeMobileMenu}>Create a Post</Link>
           </div>
         </div>
       )}

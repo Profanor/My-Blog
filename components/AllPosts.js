@@ -118,7 +118,7 @@ const AllPostsPage = () => {
       ) : (
         <>
           {selectedPost ? (
-            <div>
+            <div className="border-2 border-white p-4">
               <h2 className="text-2xl font-semibold">{selectedPost.title}</h2>
               <p>{selectedPost.content}</p>
               <div className="flex mt-4">
