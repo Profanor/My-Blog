@@ -1,11 +1,12 @@
 "use client";
+
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 const NewPostPage = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [postCreated, setPostCreated] = useState(false); // State to track if post was created successfully
+  const [postCreated, setPostCreated] = useState(false);
   const router = useRouter();
 
   const handleTitleChange = (event) => {
@@ -19,14 +20,16 @@ const NewPostPage = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Perform validation (e.g., check if title and content are not empty)
     if (!title.trim() || !content.trim()) {
       console.error('Title and content cannot be empty');
       return;
     }
 
     try {
-      const response = await fetch('http://localhost:3000/api/posts', {
+      const baseUrl = window.location.protocol + '//' + window.location.host;
+      const apiUrl = `${baseUrl}/api/posts`;
+
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -36,11 +39,10 @@ const NewPostPage = () => {
 
       if (response.ok) {
         console.log('Post created successfully!');
-        setPostCreated(true); // Set state to indicate post was created successfully
+        setPostCreated(true);
         setTimeout(() => {
-        router.push('/');
-      }, 2000);
-
+          router.push('/');
+        }, 2000);
       } else {
         console.error('Error creating post:', response.statusText);
       }
@@ -52,7 +54,7 @@ const NewPostPage = () => {
   return (
     <div className="max-w-lg mx-auto mt-12 p-6 bg-white shadow-md rounded-md">
       <h1 className="text-2xl font-bold text-gray-800 mb-4">Create a New Post</h1>
-      {postCreated && ( // Display success message if post was created successfully
+      {postCreated && (
         <div className="mb-4 text-green-600 font-semibold">
           Post created successfully!
         </div>
