@@ -6,6 +6,8 @@ const NewPostPage = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [postCreated, setPostCreated] = useState(false); // State to track if post was created successfully
+  const [image, setImage] = useState(null);
+
   const router = useRouter();
 
   const handleTitleChange = (event) => {
@@ -16,26 +18,33 @@ const NewPostPage = () => {
     setContent(event.target.value);
   };
 
+  const handleImageChange = (event) => {
+    setImage(event.target.files[0]);
+  };
+  
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     // Perform validation (e.g., check if title and content are not empty)
     if (!title.trim() || !content.trim()) {
-      console.error('Title and content cannot be empty');
+      alert('Title and content cannot be empty');
       return;
     }
 
+    const formData = new FormData();
+      formData.append('title', title);
+      formData.append('content', content);
+      if (image) {
+      formData.append('image', image, image.name);
+      }
+      
     try {
       const response = await fetch('http://localhost:3000/api/posts', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ title, content }),
+        body: formData,
       });
 
       if (response.ok) {
-        console.log('Post created successfully!');
         setPostCreated(true); // Set state to indicate post was created successfully
         setTimeout(() => {
         router.push('/');
@@ -76,6 +85,16 @@ const NewPostPage = () => {
             value={content} 
             onChange={handleContentChange} 
             required 
+            className="mt-1 p-2 border border-gray-300 rounded-md w-full focus:outline-none focus:ring focus:ring-indigo-200 text-gray-800"
+          />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="image" className="block text-sm font-medium text-gray-700">Image:</label>
+          <input 
+            type="file" 
+            id="image" 
+            onChange={handleImageChange} 
+            accept="image/*" 
             className="mt-1 p-2 border border-gray-300 rounded-md w-full focus:outline-none focus:ring focus:ring-indigo-200 text-gray-800"
           />
         </div>
