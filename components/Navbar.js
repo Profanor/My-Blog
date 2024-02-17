@@ -6,7 +6,7 @@ import debounce from 'lodash/debounce';
 import { useRouter } from 'next/navigation'; 
 
 const Navbar = () => {
-  const router = useRouter(); // Use useRouter hook
+  const router = useRouter(); 
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // State variable to track mobile menu open/close
   const [windowWidth, setWindowWidth] = useState(0); // State variable to track window width
@@ -36,7 +36,7 @@ const Navbar = () => {
       setWindowWidth(window.innerWidth);
     };
     handleResize(); // Set initial window width
-    window.addEventListener('resize', handleResize); // Add event listener for window resize
+    window.addEventListener('resize', handleResize); 
     return () => {
       window.removeEventListener('resize', handleResize); 
     };
@@ -58,7 +58,7 @@ const Navbar = () => {
           <p className="logo-text text-white">Apex Blog</p>
         </Link>
       </div>
-      {/* Conditional rendering for mobile menu */}
+      
       {windowWidth <= 768 ? (
         <div className="flex items-center">
           <button className="text-white focus:outline-none" onClick={toggleMobileMenu}>
@@ -73,7 +73,6 @@ const Navbar = () => {
         </div>
       ) : (
         <div className="flex gap-4">
-          {/* Conditionally render About and Featured links based on the route */}
           {router.pathname !== "/posts" && (
             <>
               <div>
@@ -93,7 +92,6 @@ const Navbar = () => {
           </div>
         </div>
       )}
-      {/* Conditional rendering for mobile menu */}
       {isMobileMenuOpen && (
         <div className="absolute top-full left-0 w-full bg-black bg-opacity-75 p-4 flex flex-col items-center">
           <div>
