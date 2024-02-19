@@ -7,7 +7,7 @@ const AllPostsPage = () => {
   const [postsData, setPostsData] = useState({ posts: [], imageSources: {} });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [viewMode, setViewMode] = useState("grid"); // Default view mode is grid
+  const [viewMode, setViewMode] = useState("grid"); 
   const [selectedPost, setSelectedPost] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   
