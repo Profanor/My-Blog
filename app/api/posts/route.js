@@ -2,11 +2,29 @@ import main from "@/config/database";
 import Posts from "@/models/Posts";
 import { NextResponse } from "next/server";
 
+
 export async function POST(req) {
-      const { title, content } = await req.json();
-      await main();
-      await Posts.create({title, content});
-      return NextResponse.json({message: "Post Created successfully"}, { status: 201 });
+    const formData = await req.formData();
+    const title = formData.get("title");
+    const content = formData.get("content");
+    const image = formData.get("image");
+     
+    if (!title || !content) {
+      throw new Error("Title or content is missing");
+    }
+
+    let imageData;
+    if (image) {
+    // Read the image file data and store it in MongoDB
+    const arrayBuffer = await new Response(image).arrayBuffer();
+    imageData = {
+      data: Buffer.from(arrayBuffer),
+          contentType: image.type,
+        };
+      }
+    await main();
+    await Posts.create({title, content, image: imageData });
+    return NextResponse.json({message: "Post Created successfully"}, { status: 201 });
 }
 
 

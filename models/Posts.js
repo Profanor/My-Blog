@@ -4,7 +4,11 @@ const postsSchema = new Schema(
   { 
   title: String, 
   content: String,
-  image: String
+  image: { data: Buffer, contentType: String },
+  date: {
+    type: Date,
+    default: Date.now,
+  },
 },
   {
   timestamps: true,

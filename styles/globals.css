@@ -36,3 +36,9 @@ body {
 .bg-post {
   background-image: url("/images/killua.jpeg");
 }
+
+
+.grid-post {
+  width: 100%; 
+}
+
