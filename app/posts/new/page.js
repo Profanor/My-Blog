@@ -38,7 +38,7 @@ const NewPostPage = () => {
       }
       
       try {
-        const response = await fetch('/api/posts', {  // Use relative URL
+        const response = await fetch('/api/posts', {  
           method: 'POST',
           body: formData,
         }); 

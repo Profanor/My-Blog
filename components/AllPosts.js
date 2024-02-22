@@ -1,5 +1,6 @@
 "use client";
 import Image from "next/image";
+import CommentForm from "./Comment";
 import { useState, useEffect } from "react";
 import { useRouter } from 'next/navigation';
 
@@ -10,6 +11,7 @@ const AllPostsPage = () => {
   const [viewMode, setViewMode] = useState("grid"); 
   const [selectedPost, setSelectedPost] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [showCommentForm, setShowCommentForm] = useState(false); // Initially hide the comment form
   
   const router = useRouter();
 
@@ -53,6 +55,7 @@ const AllPostsPage = () => {
   const handlePostClick = (postId) => {
     const clickedPost = postsData.posts.find(post => post._id === postId);
     setSelectedPost(clickedPost);
+    setShowCommentForm(true); // Show the comment form when a post is clicked
   };
 
   const handleEditPost = async (postId, updatedPostData) => {
@@ -100,6 +103,27 @@ const AllPostsPage = () => {
     setSearchQuery(event.target.value);
   };
 
+  const handleCommentSubmit = async (commentData) => {
+    try {
+      const apiUrl = '/api/comments';
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(commentData),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to submit comment');
+      }
+      setSelectedPost(null);
+      setShowCommentForm(false);
+    } catch (error) {
+      alert('Failed to submit comment. Please try again later.');
+    }
+  };
+  
   // Filter posts based on the search query
   const filteredPosts = postsData.posts ? postsData.posts.filter(post =>
   post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -108,7 +132,7 @@ const AllPostsPage = () => {
 
 
   return (
-    <div className="min-h-screen grid grid-rows-3 gap-8 ml-2 p-10">
+    <div className="min-h-screen grid grid-rows-3 gap-8 ml-2 p-10 ">
       <div className="bg-indigo-600 text-white py-6 px-8 text-center">
         <h1 className="text-3xl font-bold">All Posts</h1>
         <div className="flex justify-center mt-2">
@@ -133,9 +157,9 @@ const AllPostsPage = () => {
         <p>Error: {error}</p>
       ) : (
         <>
-          {selectedPost ? (
+          {selectedPost && showCommentForm ? ( // Only show the comment form if a post is selected and showCommentForm is true
             <div className="border-2 border-white border-gray-200 rounded-md p-6">
-              {selectedPost.image && ( // Check if the post has an image
+              {selectedPost.image && (
                 <div className="mt-2">
                   <Image
                     src={`data:${selectedPost.image.contentType};base64,${Buffer.from(selectedPost.image.data).toString("base64")}`}
@@ -158,11 +182,17 @@ const AllPostsPage = () => {
               <button onClick={() => setSelectedPost(null)} className="mt-4 px-4 py-2 bg-indigo-800 text-white rounded-md">
                 Back to Posts
               </button>
+              <div className="mt-4">
+                <CommentForm onSubmit={handleCommentSubmit} />
+              </div>
             </div>
+            
           ) : (
-            <div className={`grid ${viewMode === "grid" ? "grid-cols-3" : "grid-cols-2"} gap-4`}>
+            
+            <div className={`grid ${viewMode === "grid" ? "grid-cols-3" : "grid-cols-2"} gap-4`} style={{ height: viewMode === "list" ? "300px" : "auto" }}>
+
               {filteredPosts.map(post => (
-                <div key={post._id} className="p-4 border rounded-md cursor-pointer shadow-md hover:shadow-lg" onClick={() => handlePostClick(post._id)}>
+                <div key={post._id} className=" p-4 border rounded-md cursor-pointer shadow-md hover:shadow-lg" onClick={() => handlePostClick(post._id)}>
                   {post.image && (
                     <div className="mt-2">
                       <Image
