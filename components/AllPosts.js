@@ -1,18 +1,18 @@
 "use client";
-import Image from "next/image";
-import CommentForm from "./Comment";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
+import CommentForm from './Comment';
 import { useRouter } from 'next/navigation';
+import SearchBar from './SearchBar'; 
 
 const AllPostsPage = () => {
   const [postsData, setPostsData] = useState({ posts: [], imageSources: {} });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [viewMode, setViewMode] = useState("grid"); 
+  const [viewMode, setViewMode] = useState("grid");
   const [selectedPost, setSelectedPost] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
-  const [showCommentForm, setShowCommentForm] = useState(false); // Initially hide the comment form
-  
+  const [showCommentForm, setShowCommentForm] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -55,15 +55,14 @@ const AllPostsPage = () => {
   const handlePostClick = (postId) => {
     const clickedPost = postsData.posts.find(post => post._id === postId);
     setSelectedPost(clickedPost);
-    setShowCommentForm(true); // Show the comment form when a post is clicked
+    setShowCommentForm(true);
   };
 
   const handleEditPost = async (postId, updatedPostData) => {
     try {
       const baseUrl = window.location.protocol + '//' + window.location.host;
       const apiUrl = `${baseUrl}/api/posts/${postId}`;
-  
-      const res = await fetch(apiUrl, {  
+      const res = await fetch(apiUrl, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -72,21 +71,20 @@ const AllPostsPage = () => {
       });
 
       if (!res.ok) {
-        throw new Error(`Failed to edit posts`)
+        throw new Error(`Failed to edit posts`);
       }
       const updatedPost = await res.json();
       return updatedPost;
     } catch (error) {
       throw error;
-    }   
+    }
   };
 
   const handleDeletePost = async (postId) => {
     const baseUrl = window.location.protocol + '//' + window.location.host;
     const apiUrl = `${baseUrl}/api/posts?id=${postId}`;
-
     const confirmed = confirm('Are you sure?');
-    if(confirmed) {
+    if (confirmed) {
       const res = await fetch(apiUrl, {
         method: 'DELETE',
       });
@@ -98,11 +96,6 @@ const AllPostsPage = () => {
     }
   }
 
-  // Function to handle changes in the search input field
-  const handleSearchInputChange = (event) => {
-    setSearchQuery(event.target.value);
-  };
-
   const handleCommentSubmit = async (commentData) => {
     try {
       const apiUrl = '/api/comments';
@@ -113,7 +106,7 @@ const AllPostsPage = () => {
         },
         body: JSON.stringify(commentData),
       });
-  
+
       if (!response.ok) {
         throw new Error('Failed to submit comment');
       }
@@ -123,33 +116,23 @@ const AllPostsPage = () => {
       alert('Failed to submit comment. Please try again later.');
     }
   };
-  
+
   // Filter posts based on the search query
   const filteredPosts = postsData.posts ? postsData.posts.filter(post =>
-  post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-  post.content.toLowerCase().includes(searchQuery.toLowerCase())
-) : [];
-
+    post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    post.content.toLowerCase().includes(searchQuery.toLowerCase())
+  ) : [];
 
   return (
     <div className="min-h-screen grid grid-rows-3 gap-8 ml-2 p-10 ">
       <div className="bg-indigo-600 text-white py-6 px-8 text-center">
         <h1 className="text-3xl font-bold">All Posts</h1>
-        <div className="flex justify-center mt-2">
-          <input
-            type="text"
-            placeholder="Search..."
-            value={searchQuery}
-            onChange={handleSearchInputChange}
-            className="px-4 py-2 bg-white rounded-md mr-2 text-black"
-          />
-          <button onClick={switchToListView} className="px-4 py-2 bg-indigo-800 text-white rounded-md mr-2 hover:bg-black transition-colors duration-300">
-            List
-          </button>
-          <button onClick={switchToGridView} className="px-4 py-2 bg-indigo-800 text-white rounded-md hover:bg-black transition-colors duration-300">
-            Grid
-          </button>
-        </div>
+        <SearchBar
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          switchToListView={switchToListView}
+          switchToGridView={switchToGridView}
+        />
       </div>
       {loading ? (
         <p>Loading...</p>
@@ -157,7 +140,7 @@ const AllPostsPage = () => {
         <p>Error: {error}</p>
       ) : (
         <>
-          {selectedPost && showCommentForm ? ( // Only show the comment form if a post is selected and showCommentForm is true
+          {selectedPost && showCommentForm ? (
             <div className="border-2 border-white border-gray-200 rounded-md p-6">
               {selectedPost.image && (
                 <div className="mt-2">
@@ -186,11 +169,8 @@ const AllPostsPage = () => {
                 <CommentForm onSubmit={handleCommentSubmit} />
               </div>
             </div>
-            
           ) : (
-            
             <div className={`grid ${viewMode === "grid" ? "grid-cols-3" : "grid-cols-2"} gap-4`} style={{ height: viewMode === "list" ? "300px" : "auto" }}>
-
               {filteredPosts.map(post => (
                 <div key={post._id} className=" p-4 border rounded-md cursor-pointer shadow-md hover:shadow-lg" onClick={() => handlePostClick(post._id)}>
                   {post.image && (
