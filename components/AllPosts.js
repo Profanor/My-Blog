@@ -145,8 +145,8 @@ const handleDeletePost = async (postId) => {
           switchToListView={switchToListView}
           switchToGridView={switchToGridView}
         />
+        <ScrollToTopButton />
       </div>
-      <ScrollToTopButton />
       {loading ? (
         <p>Loading...</p>
       ) : error ? (
@@ -165,6 +165,7 @@ const handleDeletePost = async (postId) => {
                   />
                 </div>
               )}
+            
               <h2 className="text-2xl font-semibold">{selectedPost.title}</h2>
               <p>{selectedPost.content}</p>
               <div className="flex mt-4">
@@ -182,22 +183,26 @@ const handleDeletePost = async (postId) => {
                 <CommentForm onSubmit={handleCommentSubmit} />
               </div>
             </div>
+            
           ) : (
-            <div className={`grid ${viewMode === "grid" ? "grid-cols-3" : "grid-cols-2"} gap-4`} style={{ height: viewMode === "list" ? "300px" : "auto" }}>
+            <div className={`grid ${viewMode === "grid" ? "grid-cols-5" : "grid-cols-2"} gap-4`} style={{ height: viewMode === "list" ? "200px" : "auto" }}>
               {filteredPosts.map(post => (
-                <div key={post._id} className=" p-4 border rounded-md cursor-pointer shadow-md hover:shadow-lg" onClick={() => handlePostClick(post._id)}>
+                <div key={post._id} className=" p-4 border rounded-md cursor-pointer shadow-md hover:shadow-lg flex flex-col" onClick={() => handlePostClick(post._id)}>
                   {post.image && (
-                    <div className="mt-2">
+                    <div className="mt-2 h-auto">
                       <Image
                         src={postsData.imageSources[post._id]}
                         alt="Image"
-                        width={600}
+                        width={300}
                         height={250}
+                        layout="responsive"
+                        objectFit="cover"
+                        className="w-full h-full"
                       />
                     </div>
                   )}
-                  <h2 className="text-xl font-semibold">{post.title}</h2>
-                  <p className="mt-2">{post.content}</p>
+                  <h2 className="text-xl font-semibold overflow-hidden">{post.title}</h2>
+                  <p className="mt-2 overflow-hidden">{post.content}</p>
                 </div>
               ))}
             </div>
