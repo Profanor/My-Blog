@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import CommentForm from '@/components/Comment';
 
@@ -15,7 +15,7 @@ const PostPage = () => {
     useEffect(() => {
         const fetchPostData = async () => {
             try {
-                const response = await fetch(`/api/posts/${postId}`);
+                const response = await fetch(`/api/post/${postId}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch post');
                 }

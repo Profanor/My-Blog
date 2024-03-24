@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import CommentForm from './Comment';
 import SearchBar from './SearchBar'; 
+import ScrollToTopButton from './Scroll/ScrollToTopButton';
 
 const AllPostsPage = () => {
   const [postsData, setPostsData] = useState({ posts: [], imageSources: {} });
@@ -19,7 +20,7 @@ const AllPostsPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('/api/posts');
+        const response = await fetch('/api/post');
         if (!response.ok) {
           throw new Error('Failed to fetch posts');
         }
@@ -53,21 +54,21 @@ const AllPostsPage = () => {
     setViewMode("grid");
   };
 
-  // const handlePostClick = (postId) => {
-  //   const clickedPost = postsData.posts.find(post => post._id === postId);
-  //   setSelectedPost(clickedPost);
-  //   setShowCommentForm(true);
-  // };
-
   const handlePostClick = (postId) => {
-    router.push(`/posts/${postId}`);
+    const clickedPost = postsData.posts.find(post => post._id === postId);
+    setSelectedPost(clickedPost);
+    setShowCommentForm(true);
   };
+
+  // const handlePostClick = (postId) => {
+  //   router.push(`/posts/${postId}`);
+  // };
 
   
   const handleEditPost = async (postId, updatedPostData) => {
     try {
         const baseUrl = window.location.protocol + '//' + window.location.host;
-        const apiUrl = `${baseUrl}/api/posts/${postId}`;
+        const apiUrl = `${baseUrl}/api/post/${postId}`;
         const res = await fetch(apiUrl, {
             method: 'PUT',
             headers: {
@@ -81,12 +82,6 @@ const AllPostsPage = () => {
             throw new Error(errorMessage);
         }
 
-        // Check if response body is empty
-        const responseData = await res.text();
-        if (!responseData) {
-            throw new Error('Empty response received from the server');
-        }
-
         const updatedPost = JSON.parse(responseData);
         return updatedPost;
     } catch (error) {
@@ -96,7 +91,7 @@ const AllPostsPage = () => {
 
 const handleDeletePost = async (postId) => {
   const baseUrl = window.location.protocol + '//' + window.location.host;
-  const apiUrl = `${baseUrl}/api/posts?id=${postId}`;
+  const apiUrl = `${baseUrl}/api/post?id=${postId}`;
   const confirmed = confirm('Are you sure?');
   
   if (confirmed) {
@@ -151,6 +146,7 @@ const handleDeletePost = async (postId) => {
           switchToGridView={switchToGridView}
         />
       </div>
+      <ScrollToTopButton />
       {loading ? (
         <p>Loading...</p>
       ) : error ? (

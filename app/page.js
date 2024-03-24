@@ -3,6 +3,7 @@ import Video from "@/components/Video";
 import Content from "@/components/Content";
 import Featured from "@/components/Featured";
 import Footer from "@/components/Footer";
+import ScrollToTopButton from "@/components/Scroll/ScrollToTopButton";
 
 const Home = () => {
   return (
@@ -12,6 +13,7 @@ const Home = () => {
         <Content />
           <Featured />
             <Footer />
+            <ScrollToTopButton />
     </>
   );
 };
