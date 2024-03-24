@@ -53,15 +53,15 @@ const AllPostsPage = () => {
     setViewMode("grid");
   };
 
-  const handlePostClick = (postId) => {
-    const clickedPost = postsData.posts.find(post => post._id === postId);
-    setSelectedPost(clickedPost);
-    setShowCommentForm(true);
-  };
-
   // const handlePostClick = (postId) => {
-  //   router.push(`/posts/${postId}`);
+  //   const clickedPost = postsData.posts.find(post => post._id === postId);
+  //   setSelectedPost(clickedPost);
+  //   setShowCommentForm(true);
   // };
+
+  const handlePostClick = (postId) => {
+    router.push(`/posts/${postId}`);
+  };
 
   
   const handleEditPost = async (postId, updatedPostData) => {
