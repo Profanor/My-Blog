@@ -1,8 +1,8 @@
 "use client";
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import CommentForm from './Comment';
-import { useRouter } from 'next/navigation';
 import SearchBar from './SearchBar'; 
 
 const AllPostsPage = () => {
@@ -13,6 +13,7 @@ const AllPostsPage = () => {
   const [selectedPost, setSelectedPost] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [showCommentForm, setShowCommentForm] = useState(false);
+  
   const router = useRouter();
 
   useEffect(() => {
@@ -58,43 +59,59 @@ const AllPostsPage = () => {
     setShowCommentForm(true);
   };
 
+  // const handlePostClick = (postId) => {
+  //   router.push(`/posts/${postId}`);
+  // };
+
+  
   const handleEditPost = async (postId, updatedPostData) => {
     try {
-      const baseUrl = window.location.protocol + '//' + window.location.host;
-      const apiUrl = `${baseUrl}/api/posts/${postId}`;
-      const res = await fetch(apiUrl, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(updatedPostData),
-      });
+        const baseUrl = window.location.protocol + '//' + window.location.host;
+        const apiUrl = `${baseUrl}/api/posts/${postId}`;
+        const res = await fetch(apiUrl, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(updatedPostData),
+        });
 
-      if (!res.ok) {
-        throw new Error(`Failed to edit posts`);
-      }
-      const updatedPost = await res.json();
-      return updatedPost;
+        if (!res.ok) {
+            const errorMessage = `Failed to edit post: ${res.statusText}`;
+            throw new Error(errorMessage);
+        }
+
+        // Check if response body is empty
+        const responseData = await res.text();
+        if (!responseData) {
+            throw new Error('Empty response received from the server');
+        }
+
+        const updatedPost = JSON.parse(responseData);
+        return updatedPost;
     } catch (error) {
-      throw error;
+        throw error;
     }
-  };
+};
 
-  const handleDeletePost = async (postId) => {
-    const baseUrl = window.location.protocol + '//' + window.location.host;
-    const apiUrl = `${baseUrl}/api/posts?id=${postId}`;
-    const confirmed = confirm('Are you sure?');
-    if (confirmed) {
+const handleDeletePost = async (postId) => {
+  const baseUrl = window.location.protocol + '//' + window.location.host;
+  const apiUrl = `${baseUrl}/api/posts?id=${postId}`;
+  const confirmed = confirm('Are you sure?');
+  
+  if (confirmed) {
       const res = await fetch(apiUrl, {
-        method: 'DELETE',
+          method: 'DELETE',
       });
 
       if (res.ok) {
-        alert('Post deleted successfully.');
-        router.push('/posts');
+          alert('Post deleted successfully.');
+          router.push('/');
+      } else {
+          alert('Failed to delete post.');
       }
-    }
   }
+};
 
   const handleCommentSubmit = async (commentData) => {
     try {

@@ -22,6 +22,10 @@ const NewPostPage = () => {
     setImage(event.target.files[0]);
   };
   
+  const handleGoBack = () => {
+    router.push('/');
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -44,9 +48,9 @@ const NewPostPage = () => {
         }); 
 
       if (response.ok) {
-        setPostCreated(true); // Set state to indicate post was created successfully
+        setPostCreated(true);
         setTimeout(() => {
-          router.push('/');
+          router.push('/posts');
           setTitle(''); 
           setContent(''); 
           setImage(null);
@@ -110,9 +114,14 @@ const NewPostPage = () => {
 
         <button 
           type="submit" 
-          className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700"
-        >
+          className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700">
           Create Post
+        </button>
+        <button 
+          type="button"
+          onClick={handleGoBack}
+          className="px-4 py-2 bg-black text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700 ml-60">
+          Go Back
         </button>
       </form>
     </div>
