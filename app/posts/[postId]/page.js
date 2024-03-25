@@ -1,11 +1,12 @@
 import PostPage from "@/components/PostPage";
+import React from 'react'
 
-const Page = () => {
+const page = () => {
   return (
     <div>
       <PostPage />
     </div>
-  );
-};
+  )
+}
 
-export default Page;
+export default page

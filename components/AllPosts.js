@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import CommentForm from './Comment';
 import SearchBar from './SearchBar'; 
 import ScrollToTopButton from './Scroll/ScrollToTopButton';
 
@@ -11,9 +10,7 @@ const AllPostsPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [viewMode, setViewMode] = useState("grid");
-  const [selectedPost, setSelectedPost] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
-  const [showCommentForm, setShowCommentForm] = useState(false);
   
   const router = useRouter();
 
@@ -55,78 +52,7 @@ const AllPostsPage = () => {
   };
 
   const handlePostClick = (postId) => {
-    const clickedPost = postsData.posts.find(post => post._id === postId);
-    setSelectedPost(clickedPost);
-    setShowCommentForm(true);
-  };
-
-  // const handlePostClick = (postId) => {
-  //   router.push(`/posts/${postId}`);
-  // };
-
-  
-  const handleEditPost = async (postId, updatedPostData) => {
-    try {
-        const baseUrl = window.location.protocol + '//' + window.location.host;
-        const apiUrl = `${baseUrl}/api/post/${postId}`;
-        const res = await fetch(apiUrl, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(updatedPostData),
-        });
-
-        if (!res.ok) {
-            const errorMessage = `Failed to edit post: ${res.statusText}`;
-            throw new Error(errorMessage);
-        }
-
-        const updatedPost = JSON.parse(responseData);
-        return updatedPost;
-    } catch (error) {
-        throw error;
-    }
-};
-
-const handleDeletePost = async (postId) => {
-  const baseUrl = window.location.protocol + '//' + window.location.host;
-  const apiUrl = `${baseUrl}/api/post?id=${postId}`;
-  const confirmed = confirm('Are you sure?');
-  
-  if (confirmed) {
-      const res = await fetch(apiUrl, {
-          method: 'DELETE',
-      });
-
-      if (res.ok) {
-          alert('Post deleted successfully.');
-          router.push('/');
-      } else {
-          alert('Failed to delete post.');
-      }
-  }
-};
-
-  const handleCommentSubmit = async (commentData) => {
-    try {
-      const apiUrl = '/api/comments';
-      const response = await fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(commentData),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to submit comment');
-      }
-      setSelectedPost(null);
-      setShowCommentForm(false);
-    } catch (error) {
-      alert('Failed to submit comment. Please try again later.');
-    }
+    router.push(`/posts/${postId}`);
   };
 
   // Filter posts based on the search query
@@ -152,39 +78,6 @@ const handleDeletePost = async (postId) => {
       ) : error ? (
         <p>Error: {error}</p>
       ) : (
-        <>
-          {selectedPost && showCommentForm ? (
-            <div className="border-2 border-white border-gray-200 rounded-md p-6">
-              {selectedPost.image && (
-                <div className="mt-2">
-                  <Image
-                    src={`data:${selectedPost.image.contentType};base64,${Buffer.from(selectedPost.image.data).toString("base64")}`}
-                    alt="Image"
-                    width={600}
-                    height={250}
-                  />
-                </div>
-              )}
-            
-              <h2 className="text-2xl font-semibold">{selectedPost.title}</h2>
-              <p>{selectedPost.content}</p>
-              <div className="flex mt-4">
-                <button onClick={() => handleEditPost(selectedPost._id)} className="px-4 py-2 bg-indigo-800 text-white rounded-md mr-2">
-                  Edit
-                </button>
-                <button onClick={() => handleDeletePost(selectedPost._id)} className="px-4 py-2 bg-red-800 text-white rounded-md">
-                  Delete
-                </button>
-              </div>
-              <button onClick={() => setSelectedPost(null)} className="mt-4 px-4 py-2 bg-indigo-800 text-white rounded-md">
-                Back to Posts
-              </button>
-              <div className="mt-4">
-                <CommentForm onSubmit={handleCommentSubmit} />
-              </div>
-            </div>
-            
-          ) : (
             <div className={`grid ${viewMode === "grid" ? "grid-cols-5" : "grid-cols-2"} gap-4`} style={{ height: viewMode === "list" ? "200px" : "auto" }}>
               {filteredPosts.map(post => (
                 <div key={post._id} className=" p-4 border rounded-md cursor-pointer shadow-md hover:shadow-lg flex flex-col" onClick={() => handlePostClick(post._id)}>
@@ -207,8 +100,6 @@ const handleDeletePost = async (postId) => {
               ))}
             </div>
           )}
-        </>
-      )}
     </div>
   );
 };

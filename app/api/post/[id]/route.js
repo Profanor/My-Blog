@@ -1,26 +1,13 @@
 import main from "@/config/database";
 import Posts from "@/models/Posts";
-import mongoose from 'mongoose';
 import { NextResponse } from "next/server";
 
 export async function PUT(request, { params }) {
     try {
         const { id } = params;
-        
-        // Ensure id is a valid ObjectId
-        if (!mongoose.isValidObjectId(id)) {
-            throw new Error('Invalid ObjectId');
-        }
-
         const { newTitle: title, newContent: content } = await request.json();
         await main();
-        
-        // Use mongoose.Types.ObjectId to create an ObjectId instance
-        const postId = mongoose.Types.ObjectId(id);
-        
-        // Update the post using findByIdAndUpdate
-        await Posts.findByIdAndUpdate(postId, { title, content });
-
+        await Posts.findByIdAndUpdate(id, { title, content });
         return new Response(JSON.stringify({ message: "Post updated successfully" }), { status: 200 });
     } catch (error) {
         console.error("Error updating post:", error);
@@ -30,10 +17,10 @@ export async function PUT(request, { params }) {
 
 
 export async function GET(request, { params }) {
-    const { postId } = params;
+    const { id } = params;
     try {
         await main();
-        const post = await Posts.findById({ _id: postId });
+        const post = await Posts.findById(id); 
         if (post) {
             return NextResponse.json({ post }, { status: 200 });
         } else {
