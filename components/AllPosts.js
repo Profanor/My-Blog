@@ -71,6 +71,7 @@ const AllPostsPage = () => {
           switchToListView={switchToListView}
           switchToGridView={switchToGridView}
         />
+        <Image src="/images/pikachu.jpeg" alt="image" className='mt-4' width={200} height={200}/>
         <ScrollToTopButton />
       </div>
       {loading ? (
