@@ -71,8 +71,12 @@ const AllPostsPage = () => {
           switchToListView={switchToListView}
           switchToGridView={switchToGridView}
         />
-        <Image src="/images/pikachu.jpeg" alt="image" className='mt-4' width={200} height={200}/>
+        <div className='flex justify-between'>
+        <Image src="/images/pikachu.png" alt="image" className='mt-4' width={200} height={200}/>
+        <div className="w-8"></div>
+        <Image src="/images/pika1.png" alt="image" className='' width={200} height={200}/>
         <ScrollToTopButton />
+        </div>
       </div>
       {loading ? (
         <p>Loading...</p>
