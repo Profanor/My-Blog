@@ -63,7 +63,7 @@ const AllPostsPage = () => {
 
   return (
     <div className="min-h-screen grid grid-rows-3 gap-8 ml-2 p-10 ">
-      <div className="bg-indigo-600 text-white py-6 px-8 text-center">
+      <div className="bg-indigo-600 text-white py-6 px-8 text-center shadow-md hover:shadow-lg transition duration-300 border border-gray-400">
         <h1 className="text-3xl font-bold">All Posts</h1>
         <SearchBar
           searchQuery={searchQuery}
@@ -85,7 +85,7 @@ const AllPostsPage = () => {
       ) : (
             <div className={`grid ${viewMode === "grid" ? "grid-cols-5" : "grid-cols-2"} gap-4`} style={{ height: viewMode === "list" ? "200px" : "auto" }}>
               {filteredPosts.map(post => (
-                <div key={post._id} className=" p-4 border rounded-md cursor-pointer shadow-md hover:shadow-lg flex flex-col" onClick={() => handlePostClick(post._id)}>
+                <div key={post._id} className=" p-4 border rounded-md cursor-pointer shadow-md hover:shadow-lg flex flex-col w-full h-auto transition-transform duration-300 transform hover:scale-110" onClick={() => handlePostClick(post._id)}>
                   {post.image && (
                     <div className="mt-2 h-auto">
                       <Image
