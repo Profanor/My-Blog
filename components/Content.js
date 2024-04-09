@@ -3,7 +3,7 @@ import Link from "next/link";
 
 const Content = () => {
   return (
-    <div id="about" className="w-full min-h-screen h-3/4 flex-center flex-col items-center border border-white">
+    <div id="about" className="w-full min-h-screen h-3/4 flex-center flex-col items-center">
       <div className="flex flex-col md:flex-row items-center">
         <div className="md:ml-14 p-8 mt-24">
           <Image src="/images/kaneki.jpeg" alt="image" width={800} height={600} layout="responsive" />

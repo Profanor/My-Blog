@@ -63,8 +63,8 @@ const AllPostsPage = () => {
 
   return (
     <div className="min-h-screen grid grid-rows-3 gap-8 ml-2 p-10 ">
-      <div className="bg-indigo-600 text-white py-6 px-8 text-center shadow-md hover:shadow-lg transition duration-300 border border-gray-400">
-        <h1 className="text-3xl font-bold">All Posts</h1>
+      <div className="bg-dark text-white py-6 px-8 text-center shadow-md hover:shadow-lg transition duration-300">
+        {/* <h1 className="text-3xl font-bold">All Posts</h1> */}
         <SearchBar
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
@@ -95,7 +95,7 @@ const AllPostsPage = () => {
                         height={250}
                         layout="responsive"
                         objectFit="cover"
-                        className="w-full h-full"
+                        className="w-full h-auto"
                       />
                     </div>
                   )}

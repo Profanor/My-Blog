@@ -12,10 +12,10 @@ const SearchBar = ({ searchQuery, setSearchQuery, switchToListView, switchToGrid
         onChange={handleInputChange}
         className="px-4 py-2 bg-white rounded-md mr-2 text-black"
       />
-      <button onClick={switchToListView} className="px-4 py-2 bg-indigo-800 text-white rounded-md mr-2 hover:bg-black transition-colors duration-300">
+      <button onClick={switchToListView} className="px-4 py-2 bg-orange-500 text-white rounded-md mr-2 hover:bg-black transition-colors duration-300">
         View in List
       </button>
-      <button onClick={switchToGridView} className="px-4 py-2 bg-indigo-800 text-white rounded-md hover:bg-black transition-colors duration-300">
+      <button onClick={switchToGridView} className="px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-black transition-colors duration-300">
         View in Grid
       </button>
     </div>
