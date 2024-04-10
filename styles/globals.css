@@ -26,6 +26,9 @@ body {
     )
     rgb(var(--background-start-rgb)); */
 }
+.post-cont {
+  background-color: rgb(16, 15, 15);
+}
 
 @layer utilities {
   .text-balance {
@@ -37,8 +40,11 @@ body {
   background-image: url("/images/killua.jpeg");
 }
 
-
 .grid-post {
   width: 100%; 
 }
 
+.img-cont {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}

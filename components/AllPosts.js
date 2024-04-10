@@ -85,22 +85,23 @@ const AllPostsPage = () => {
       ) : (
             <div className={`grid ${viewMode === "grid" ? "grid-cols-5" : "grid-cols-2"} gap-4`} style={{ height: viewMode === "list" ? "200px" : "auto" }}>
               {filteredPosts.map(post => (
-                <div key={post._id} className=" p-4 border rounded-md cursor-pointer shadow-md hover:shadow-lg flex flex-col w-full h-auto transition-transform duration-300 transform hover:scale-110" onClick={() => handlePostClick(post._id)}>
+                <div key={post._id} className="post-cont border-0 cursor-pointer shadow-md hover:shadow-lg flex flex-col w-full h-auto transition-transform duration-300 transform hover:scale-110" onClick={() => handlePostClick(post._id)}>
                   {post.image && (
-                    <div className="mt-2 h-auto">
+                    <div className="h-auto">
                       <Image
                         src={postsData.imageSources[post._id]}
                         alt="Image"
                         width={300}
-                        height={250}
+                        height={300}
                         layout="responsive"
                         objectFit="cover"
-                        className="w-full h-auto"
+                        className="img-cont w-full h-full"
                       />
                     </div>
                   )}
-                  <h2 className="text-xl font-semibold overflow-hidden">{post.title}</h2>
-                  <p className="mt-2 overflow-hidden">{post.content}</p>
+                  <h2 className="text-xl font-semibold overflow-hidden p-3">{post.title}</h2>
+                  {/* <p className="mt-2 overflow-hidden p-3">{post.content}</p> */}
+                  <p className="mt-2 overflow-hidden p-3">Read More</p>
                 </div>
               ))}
             </div>
