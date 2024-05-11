@@ -1,6 +1,5 @@
 import React from 'react';
 import Link from 'next/link';
-import Register from './Signup';
 
 const Video = () => {
   return (
@@ -21,9 +20,8 @@ const Video = () => {
           </Link>
           </p>
         </div>
-        <div className="absolute inset-0 flex items-center justify-center">
-        <Register />
-      </div>
+        {/* <div className="absolute inset-0 flex items-center justify-center">
+      </div> */}
       </div>
     </section>
   );

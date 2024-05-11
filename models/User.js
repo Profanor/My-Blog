@@ -4,11 +4,11 @@ import passportLocalMongoose from 'passport-local-mongoose';
 const userSchema = new mongoose.Schema({
     username: String,
     password: String,
-    posts: [
-        {
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: "Posts"
-    }]
+    // posts: [
+    //     {
+    //     type: mongoose.Schema.Types.ObjectId, 
+    //     ref: "Posts"
+    // }]
 });
 userSchema.plugin(passportLocalMongoose)
 

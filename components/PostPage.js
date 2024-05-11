@@ -1,8 +1,8 @@
 "use client"
 import { useParams } from 'next/navigation'; 
 import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
-import React, { useState, useEffect } from 'react';
 import CommentForm from '@/components/Comment';
 
 const PostPage = () => {
