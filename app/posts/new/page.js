@@ -35,17 +35,17 @@ const NewPostPage = () => {
     }
 
     const formData = new FormData();
-      formData.append('title', title);
-      formData.append('content', content);
-      if (image) {
+    formData.append('title', title);
+    formData.append('content', content);
+    if (image) {
       formData.append('image', image);
-      }
+    }
       
-      try {
-        const response = await fetch('/api/post', {  
-          method: 'POST',
-          body: formData,
-        }); 
+    try {
+      const response = await fetch('/api/post', {  
+        method: 'POST',
+        body: formData,
+      }); 
 
       if (response.ok) {
         setPostCreated(true);
@@ -54,7 +54,7 @@ const NewPostPage = () => {
           setTitle(''); 
           setContent(''); 
           setImage(null);
-    }, 2000);
+        }, 2000);
       } else {
         const errorMessage = await response.text();
         throw new Error(errorMessage);
@@ -112,17 +112,19 @@ const NewPostPage = () => {
           </div>
         )}
 
-        <button 
-          type="submit" 
-          className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700">
-          Create Post
-        </button>
-        <button 
-          type="button"
-          onClick={handleGoBack}
-          className="px-4 py-2 bg-black text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700 ml-60">
-          Go Back
-        </button>
+        <div className="flex justify-between">
+          <button 
+            type="submit" 
+            className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700">
+            Create Post
+          </button>
+          <button 
+            type="button"
+            onClick={handleGoBack}
+            className="px-4 py-2 bg-black text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:bg-indigo-700">
+            Go Back
+          </button>
+        </div>
       </form>
     </div>
   );
