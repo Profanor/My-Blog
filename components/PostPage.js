@@ -1,5 +1,5 @@
 "use client"
-import { useParams } from 'next/navigation'; 
+import { useParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
@@ -33,75 +33,51 @@ const PostPage = () => {
         if (postId) {
             fetchPostData();
         } 
-    }, [postId]); 
+    }, [postId]);
 
-    const handleEditPost = async (postId, updatedPostData) => {
-        try {
-            const baseUrl = window.location.protocol + '//' + window.location.host;
-            const apiUrl = `${baseUrl}/api/post/${postId}`;
+    const handleDeletePost = async (postId) => {
+        const baseUrl = window.location.protocol + '//' + window.location.host;
+        const apiUrl = `${baseUrl}/api/post?id=${postId}`;
+        const confirmed = confirm('Are you sure?');
+
+        if (confirmed) {
             const res = await fetch(apiUrl, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(updatedPostData),
+                method: 'DELETE',
             });
-    
-            if (!res.ok) {
-                const errorMessage = `Failed to edit post: ${res.statusText}`;
-                throw new Error(errorMessage);
+
+            if (res.ok) {
+                alert('Post deleted successfully.');
+                router.push('/posts');
+            } else {
+                alert('Failed to delete post.');
             }
-    
-            const updatedPost = JSON.parse(responseData);
-            return updatedPost;
-        } catch (error) {
-            throw error;
         }
     };
-    
-    const handleDeletePost = async (postId) => {
-      const baseUrl = window.location.protocol + '//' + window.location.host;
-      const apiUrl = `${baseUrl}/api/post?id=${postId}`;
-      const confirmed = confirm('Are you sure?');
-      
-      if (confirmed) {
-          const res = await fetch(apiUrl, {
-              method: 'DELETE',
-          });
-    
-          if (res.ok) {
-              alert('Post deleted successfully.');
-              router.push('/posts');
-          } else {
-              alert('Failed to delete post.');
-          }
-      }
-    };
-    
-      const handleCommentSubmit = async (commentData) => {
-        try {
+
+    const handleCommentSubmit = async (commentData) => {
+      try {
           const apiUrl = '/api/comments';
           const response = await fetch(apiUrl, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(commentData),
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(commentData),
           });
-    
+
           if (!response.ok) {
-            throw new Error('Failed to submit comment');
+              throw new Error('Failed to submit comment');
           }
           setSelectedPost(null);
           setShowCommentForm(false);
-        } catch (error) {
+      } catch (error) {
           alert('Failed to submit comment. Please try again later.');
-        }
-      };
+      }
+  };
 
-      const handleGoBack = async () => {
+    const handleGoBack = async () => {
         router.push('/posts');
-      };
+    };
 
     if (loading) {
         return <p>Loading...</p>;
@@ -129,22 +105,22 @@ const PostPage = () => {
                 </div>
             )}
             <p className="mt-10 text-center">{post.content}</p>
-              <div className="flex mt-4 justify-center">
-                <button onClick={() => handleEditPost(post._id)} className="px-4 py-2 bg-indigo-800 text-white rounded-md mr-2">
-                  Edit
+            <div className="flex mt-4 justify-center">
+                <button onClick={() => router.push(`/edit/${post._id}`)} className="px-4 py-2 bg-indigo-800 text-white rounded-md mr-2">
+                    Edit
                 </button>
                 <button onClick={() => handleDeletePost(post._id)} className="px-4 py-2 bg-red-800 text-white rounded-md">
-                  Delete
+                    Delete
                 </button>
-              </div>
-              <div className="mt-4 flex justify-center">
-              <button onClick={() => handleGoBack(post._id)} className="mt-4 px-4 py-2 bg-indigo-800 text-white rounded-md">
-                Back to Posts
-              </button>
-              </div>
-              <div className="mt-8 flex justify-center">
+            </div>
+            <div className="mt-4 flex justify-center">
+                <button onClick={handleGoBack} className="mt-4 px-4 py-2 bg-indigo-800 text-white rounded-md">
+                    Back to Posts
+                </button>
+            </div>
+            <div className="mt-8 flex justify-center">
                 <CommentForm onSubmit={handleCommentSubmit} />
-              </div>
+            </div>
         </div>
     );
 };

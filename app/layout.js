@@ -1,17 +1,21 @@
+'use client';
 import Navbar from "@/components/Navbar";
+import { SessionProvider } from 'next-auth/react';
 import "@/styles/globals.css";
 
-export const metadata = {
-  title: "Davids Blog",
-  description: "Blogging just got more fun!",
-};
+// export const metadata = {
+//   title: "Davids Blog",
+//   description: "Blogging just got more fun!",
+// };
 
-const RootLayout = ({ children }) => (
+const RootLayout = ({ children, session }) => (
   <html lang="en">
     <body>
-      <Navbar />
-    <div>{children}</div>
-      </body>
+      <SessionProvider session={session}>
+        <Navbar />
+        <div>{children}</div>
+      </SessionProvider>
+    </body>
   </html>
 );
 

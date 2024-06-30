@@ -5,7 +5,14 @@ import { NextResponse } from "next/server";
 export async function PUT(request, { params }) {
     try {
         const { id } = params;
-        const { newTitle: title, newContent: content } = await request.json();
+        const body = await request.json();
+        console.log('Received body:', body);
+
+        if (!body || !body.newTitle || !body.newContent) {
+            throw new Error("Invalid request body");
+        }
+
+        const { newTitle: title, newContent: content } = body;
         await main();
         await Posts.findByIdAndUpdate(id, { title, content });
         return new Response(JSON.stringify({ message: "Post updated successfully" }), { status: 200 });

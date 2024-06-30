@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 const NewPostPage = () => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [postCreated, setPostCreated] = useState(false); // State to track if post was created successfully
+  const [postCreated, setPostCreated] = useState(false); 
   const [image, setImage] = useState(null);
 
   const router = useRouter();
